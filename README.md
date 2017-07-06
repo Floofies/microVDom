@@ -34,6 +34,7 @@ Here is a small usage example:
 ```
 When the code runs, `$myHTML` will contain the following HTML string:
 ```HTML
+<!DOCTYPE html>
 <html>
   <head>
   </head>
@@ -88,8 +89,8 @@ $document = new microDocument("html");
 #### `createAttribute`
 
 ###### Function
-```JavaScript
-createAttribute( string $name , string $value );
+```PHP
+microDocument->createAttribute( string $name , string $value );
 ```
 Returns a clone of `object`.
 
@@ -106,10 +107,13 @@ Returns a clone of `object`.
 ```PHP
 // Instantiate a new Attr Object
 $myAttr = $document->createAttribute("myAttr", "myValue");
+
 // Instantiate a new Element Object
 $myDiv = $document->createElement("div");
+
 // Set the new attribute on the Element Object
 $myDiv->setAttribute($myAttr);
+
 // Render the HTML
 $myHTML = $myDiv->render();
 ```

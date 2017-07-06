@@ -85,7 +85,7 @@ class parentNode {
   private function appendOneChild ($node) {
     if (is_string($node)) {
       $this->children[] = new text($node);
-    } else if (is_subclass_of($node, node)) {
+    } else if (is_subclass_of($node, "node")) {
       $this->children[] = $node;
     }
   }
@@ -96,10 +96,8 @@ class parentNode {
       array_unshift($this->children, $node);
     }
   }
-  private function addChildren ($nodes) {
-    if (!is_array($nodes)) {
-      $nodesToAdd = [$nodes];
-    }
+  private function addChildren ($nodes, $append) {
+    $nodesToAdd = (!is_array($nodes) ? [$nodes] : $nodes);
     foreach ($nodesToAdd as $node) {
       $this->{($append ? "append" : "prepend") . "OneChild"}($node);
       $this->childElementCount++;
@@ -159,7 +157,7 @@ class element extends parentNode implements node {
   }
   // Sets the value of a named attribute of the current node.
   public function setAttribute ($nameOrAttr, $value = "") {
-    if (is_a($nameOrAttr, attr)) {
+    if (is_a($nameOrAttr, "attr")) {
       $name = $nameOrAttr->name;
       $this->attributes[$name] = $nameOrAttr;
     } else if (is_string($nameOrAttr)) {
@@ -213,8 +211,8 @@ class microDocument extends parentNode implements node {
     $this->documentElement = $this->createElement("html");
     $this->head = $this->createElement("head");
     $this->body = $this->createElement("body");
-    $this->documentElement->children = [$this->head, $this->body];
-    $this->children = [$this->docType, $this->documentElement];
+    $this->documentElement->appendChild([$this->head, $this->body]);
+    $this->appendChild([$this->docType, $this->documentElement]);
   }
   // Creates a new Attr object and returns it.
   public function createAttribute ($name, $value) {
