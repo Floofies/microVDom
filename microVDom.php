@@ -53,6 +53,7 @@ class comment implements node {
   public $data;
   function __construct ($string = "") {
     $this->nodeType = COMMENT_NODE;
+    $this->data = $string;
   }
   public function render () {
     return "<!--" . htmlspecialchars($this->data) . "-->\n";
@@ -142,11 +143,7 @@ class element extends parentNode implements node {
       "track",
       "wbr"
     ];
-    if (in_array($tagName, $selfClosingTagNames)) {
-      $this->selfClosing = true;
-    } else {
-      $this->selfClosing = false;
-    }
+    $this->selfClosing = in_array($tagName, $selfClosingTagNames);
     $this->tagName = $tagName;
     $this->nodeType = ELEMENT_NODE;
     if (count($attrMap) > 0) {
